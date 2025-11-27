@@ -1,0 +1,56 @@
+## Сборка
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+artifacts/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Кэш NuGet
+packages/
+*.nupkg
+.nuget/
+project.lock.json
+
+## Логи
+*.log
+
+## Rider / ReSharper / аналитика
+.idea/
+*.DotSettings.user
+_ReSharper*/
+*_Resharper*/
+*.DotCover
+*.ncrunch*
+.ncrunchsolution
+
+## Тестовые результаты
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+## Публикация
+publish/
+app.publish/
+
+## Временные файлы
+*.tmp
+*.temp
+*.bak
+*.svclog
+
+## Конфигурация OS / IDE
+Thumbs.db
+Desktop.ini
+
+## Конфигурация VSCode (если не хочешь хранить)
+.vscode/
+
+## Локальные среды, секреты (если появятся)
+*.local.json
+secrets.json
