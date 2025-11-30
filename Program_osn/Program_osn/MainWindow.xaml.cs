@@ -4,9 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ImageEnhancement; // здесь лежат ImageProcessors и Metrics
+using ImageEnhancement;
 
 namespace ImageEnhancementWpf
 {
@@ -15,8 +14,9 @@ namespace ImageEnhancementWpf
         private Bitmap? _originalBitmap;
         private Bitmap? _processedBitmap;
 
-        private double _originalZoom = 1.0;
-        private double _processedZoom = 1.0;
+        private readonly double[] _zoomFactors = new[] { 1.0, 1.5, 2.0 };
+        private int _originalZoomIndex = 0;
+        private int _processedZoomIndex = 0;
 
         public MainWindow()
         {
@@ -34,19 +34,15 @@ namespace ImageEnhancementWpf
 
             if (ofd.ShowDialog() == true)
             {
-                // Освобождаем старые битмапы, если были
                 _originalBitmap?.Dispose();
                 _processedBitmap?.Dispose();
 
-                // Загружаем новое изображение
                 _originalBitmap = new Bitmap(ofd.FileName);
                 _processedBitmap = null;
 
-                // Показываем исходное изображение
                 OriginalImageControl.Source = BitmapToImageSource(_originalBitmap);
                 ProcessedImageControl.Source = null;
 
-                // Сбрасываем зум и SSIM
                 ResetZoom();
                 SsimValueTextBlock.Text = "—";
 
@@ -89,18 +85,6 @@ namespace ImageEnhancementWpf
 
         #region Вспомогательные методы
 
-        private void ResetZoom()
-        {
-            _originalZoom = 1.0;
-            _processedZoom = 1.0;
-
-            OriginalImageScale.ScaleX = 1.0;
-            OriginalImageScale.ScaleY = 1.0;
-
-            ProcessedImageScale.ScaleX = 1.0;
-            ProcessedImageScale.ScaleY = 1.0;
-        }
-
         private static BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (var ms = new MemoryStream())
@@ -131,50 +115,66 @@ namespace ImageEnhancementWpf
             return true;
         }
 
+        private void ResetZoom()
+        {
+            _originalZoomIndex = 0;
+            _processedZoomIndex = 0;
+            OriginalImageScale.ScaleX = OriginalImageScale.ScaleY = 1.0;
+            ProcessedImageScale.ScaleX = ProcessedImageScale.ScaleY = 1.0;
+        }
+
+        private int NextZoomIndex(int current)
+        {
+            current++;
+            if (current >= _zoomFactors.Length)
+                current = 0;
+            return current;
+        }
+
         /// <summary>
-        /// Универсальный метод: применить обработку, показать результат и посчитать SSIM.
+        /// Применить метод обработки, показать результат и посчитать SSIM.
         /// </summary>
         private void ApplyAndShow(Func<Bitmap, Bitmap> processFunc, string methodName)
         {
             if (!CheckOriginalLoaded())
                 return;
 
-            // старый обработанный битмап освобождаем
             _processedBitmap?.Dispose();
-
-            // вызываем нужный алгоритм
             _processedBitmap = processFunc(_originalBitmap!);
 
-            // показываем картинку
             ProcessedImageControl.Source = BitmapToImageSource(_processedBitmap);
 
-            // считаем SSIM
-            double ssim = Metrics.ComputeSSIM(_originalBitmap!, _processedBitmap);
+            // при каждом новом результате сбрасываем зум для нижнего окна
+            _processedZoomIndex = 0;
+            ProcessedImageScale.ScaleX = ProcessedImageScale.ScaleY = 1.0;
+
+            double ssim = MetricsComputeSafe();
             SsimValueTextBlock.Text = ssim.ToString("F4");
 
             this.Title = $"Улучшение качества изображений – {methodName}, SSIM={ssim:F4}";
         }
 
-        private double NextZoom(double current)
+        private double MetricsComputeSafe()
         {
-            // цикл 1.0 → 1.5 → 2.0 → 1.0
-            if (current < 1.5) return 1.5;
-            if (current < 2.0) return 2.0;
-            return 1.0;
+            if (_originalBitmap == null || _processedBitmap == null)
+                return 0.0;
+
+            return Metrics.ComputeSSIM(_originalBitmap, _processedBitmap);
         }
 
         #endregion
 
-        #region Обработчики кликов по изображениям (zoom)
+        #region Zoom по клику
 
         private void OriginalImageControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (OriginalImageControl.Source == null)
                 return;
 
-            _originalZoom = NextZoom(_originalZoom);
-            OriginalImageScale.ScaleX = _originalZoom;
-            OriginalImageScale.ScaleY = _originalZoom;
+            _originalZoomIndex = NextZoomIndex(_originalZoomIndex);
+            double factor = _zoomFactors[_originalZoomIndex];
+            OriginalImageScale.ScaleX = factor;
+            OriginalImageScale.ScaleY = factor;
         }
 
         private void ProcessedImageControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -182,14 +182,15 @@ namespace ImageEnhancementWpf
             if (ProcessedImageControl.Source == null)
                 return;
 
-            _processedZoom = NextZoom(_processedZoom);
-            ProcessedImageScale.ScaleX = _processedZoom;
-            ProcessedImageScale.ScaleY = _processedZoom;
+            _processedZoomIndex = NextZoomIndex(_processedZoomIndex);
+            double factor = _zoomFactors[_processedZoomIndex];
+            ProcessedImageScale.ScaleX = factor;
+            ProcessedImageScale.ScaleY = factor;
         }
 
         #endregion
 
-        #region Кнопки методов обработки
+        #region Методы обработки
 
         private void LinearContrast_Click(object sender, RoutedEventArgs e)
         {
@@ -215,8 +216,6 @@ namespace ImageEnhancementWpf
                 return;
 
             int radius = (int)WienerRadiusSlider.Value;
-
-            // поддержка и точки, и запятой
             string text = NoiseVarianceTextBox.Text.Replace(',', '.');
 
             if (!double.TryParse(text,

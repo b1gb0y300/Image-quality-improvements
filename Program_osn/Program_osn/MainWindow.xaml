@@ -1,9 +1,9 @@
 ﻿<Window x:Class="ImageEnhancementWpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Улучшение качества изображений"
-        Height="600" Width="1000"
-        Background="#FF1E1E1E"
+        Title="ImageUP — улучшение качества изображений"
+        Height="650" Width="1100"
+        Background="#FF101018"
         WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
@@ -12,7 +12,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ЛЕВАЯ ЧАСТЬ: исходное и обработанное изображения -->
+        <!-- ЛЕВАЯ ЧАСТЬ: исходное + обработанное изображения -->
         <Grid Grid.Column="0" Margin="0,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -22,11 +22,17 @@
             <!-- Исходное изображение -->
             <GroupBox Header="Исходное изображение"
                       Foreground="White"
-                      Margin="0,0,0,5">
-                <Border Background="#FF2A2A2A" Padding="5">
-                    <ScrollViewer x:Name="OriginalScrollViewer">
+                      Margin="0,0,0,5"
+                      FontWeight="SemiBold">
+                <Border Background="#FF1B1B27"
+                        Padding="5"
+                        CornerRadius="10"
+                        ClipToBounds="True">
+                    <Grid>
                         <Image x:Name="OriginalImageControl"
                                Stretch="Uniform"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
                                RenderTransformOrigin="0.5,0.5"
                                MouseLeftButtonDown="OriginalImageControl_MouseLeftButtonDown">
                             <Image.RenderTransform>
@@ -34,18 +40,24 @@
                                                 ScaleX="1" ScaleY="1"/>
                             </Image.RenderTransform>
                         </Image>
-                    </ScrollViewer>
+                    </Grid>
                 </Border>
             </GroupBox>
 
             <!-- Обработанное изображение -->
             <GroupBox Header="Обработанное изображение"
                       Foreground="White"
-                      Grid.Row="1">
-                <Border Background="#FF2A2A2A" Padding="5">
-                    <ScrollViewer x:Name="ProcessedScrollViewer">
+                      Grid.Row="1"
+                      FontWeight="SemiBold">
+                <Border Background="#FF1B1B27"
+                        Padding="5"
+                        CornerRadius="10"
+                        ClipToBounds="True">
+                    <Grid>
                         <Image x:Name="ProcessedImageControl"
                                Stretch="Uniform"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
                                RenderTransformOrigin="0.5,0.5"
                                MouseLeftButtonDown="ProcessedImageControl_MouseLeftButtonDown">
                             <Image.RenderTransform>
@@ -53,19 +65,19 @@
                                                 ScaleX="1" ScaleY="1"/>
                             </Image.RenderTransform>
                         </Image>
-                    </ScrollViewer>
+                    </Grid>
                 </Border>
             </GroupBox>
         </Grid>
 
         <!-- ПРАВАЯ ЧАСТЬ: панель управления -->
         <Border Grid.Column="1"
-                Background="#FF262626"
-                CornerRadius="8"
-                Padding="10">
+                Background="#FF181821"
+                CornerRadius="15"
+                Padding="15">
             <StackPanel>
 
-                <TextBlock Text="Управление"
+                <TextBlock Text="Панель управления"
                            FontSize="20"
                            FontWeight="Bold"
                            Foreground="White"
@@ -74,13 +86,18 @@
                 <!-- Кнопки загрузки / сохранения -->
                 <StackPanel Orientation="Horizontal"
                             Margin="0,0,0,10">
-                    <Button Content="Загрузить изображение"
-                            Width="170"
-                            Margin="0,0,5,0"
-                            Click="LoadImage_Click"/>
-                    <Button Content="Сохранить результат"
-                            Width="150"
-                            Click="SaveImage_Click"/>
+                    <Button Content="Загрузить"
+                            Width="120"
+                            Margin="0,0,8,0"
+                            Click="LoadImage_Click"
+                            Background="#FF00E5FF"
+                            Foreground="#FF1A1A1A"
+                            FontWeight="SemiBold"/>
+                    <Button Content="Сохранить"
+                            Width="120"
+                            Click="SaveImage_Click"
+                            Background="#FF303040"
+                            Foreground="White"/>
                 </StackPanel>
 
                 <Separator Margin="0,5"/>
@@ -94,22 +111,29 @@
                 <Button Content="Линейное контрастирование"
                         Margin="0,3"
                         Height="30"
-                        Click="LinearContrast_Click"/>
+                        Click="LinearContrast_Click"
+                        Background="#FF252535"
+                        Foreground="White"/>
 
                 <Button Content="Эквализация гистограммы"
                         Margin="0,3"
                         Height="30"
-                        Click="HistogramEq_Click"/>
+                        Click="HistogramEq_Click"
+                        Background="#FF252535"
+                        Foreground="White"/>
 
                 <Button Content="Медианный фильтр (3x3)"
                         Margin="0,3"
                         Height="30"
-                        Click="MedianFilter_Click"/>
+                        Click="MedianFilter_Click"
+                        Background="#FF252535"
+                        Foreground="White"/>
 
                 <!-- Параметры фильтра Винера -->
                 <TextBlock Text="Фильтр Винера"
                            Foreground="White"
-                           Margin="0,10,0,2"/>
+                           Margin="0,10,0,2"
+                           FontWeight="Bold"/>
 
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center">
@@ -137,13 +161,18 @@
                                Margin="0,0,5,0"/>
                     <TextBox x:Name="NoiseVarianceTextBox"
                              Width="60"
-                             Text="10"/>
+                             Text="10"
+                             Background="#FF101018"
+                             Foreground="White"
+                             BorderBrush="#FF404050"/>
                 </StackPanel>
 
                 <Button Content="Применить фильтр Винера"
                         Margin="0,5,0,10"
                         Height="30"
-                        Click="WienerFilter_Click"/>
+                        Click="WienerFilter_Click"
+                        Background="#FF3C3C5A"
+                        Foreground="White"/>
 
                 <Separator Margin="0,5"/>
 
@@ -166,7 +195,7 @@
                 </StackPanel>
 
                 <TextBlock Text="SSIM рассчитывается между исходным и текущим обработанным изображением."
-                           Foreground="Gray"
+                           Foreground="#FF9A9AAA"
                            TextWrapping="Wrap"
                            FontSize="11"
                            Margin="0,10,0,0"/>

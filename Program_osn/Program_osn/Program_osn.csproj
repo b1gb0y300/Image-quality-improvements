@@ -6,10 +6,23 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>ICON.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\ICON.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ICON.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="9.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\ICON.ico" />
   </ItemGroup>
 
 </Project>

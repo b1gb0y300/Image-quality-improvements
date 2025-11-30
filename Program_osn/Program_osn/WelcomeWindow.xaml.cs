@@ -11,9 +11,14 @@ namespace ImageEnhancementWpf
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            var main = new MainWindow(); // это твое рабочее окно
+            var main = new MainWindow();
             main.Show();
-            this.Close(); // закрываем приветственное
+            this.Close();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }
