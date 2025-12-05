@@ -1,30 +1,43 @@
 ﻿<Window x:Class="ImageEnhancementWpf.WelcomeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Улучшение качества изображений"
+        Title="ImageUP — улучшение качества изображений"
         Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         WindowStyle="None"
+        ResizeMode="NoResize"
         AllowsTransparency="True"
         Background="Transparent">
 
-    <Grid>
-        <!-- Градиентный фон -->
-        <Border CornerRadius="20" Margin="10" Padding="0">
+    <Grid x:Name="RootGrid" Opacity="0">
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="RootGrid"
+                                         Storyboard.TargetProperty="Opacity"
+                                         From="0" To="1"
+                                         Duration="0:0:0.5"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <Border CornerRadius="20" Margin="10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#FF1F3B4D" Offset="0"/>
-                    <GradientStop Color="#FF29323C" Offset="0.5"/>
-                    <GradientStop Color="#FF4E4376" Offset="1"/>
+                    <GradientStop Color="#161623" Offset="0"/>
+                    <GradientStop Color="#101018" Offset="0.4"/>
+                    <GradientStop Color="#1E293B" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
 
-        <!-- Полупрозрачная карточка контента -->
-        <Border CornerRadius="20" Margin="10" Padding="25"
-                Background="#CC141414">
-
+        <Border Margin="40"
+                Padding="24"
+                CornerRadius="18"
+                Background="#CC111119"
+                Effect="{StaticResource CardShadow}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -32,42 +45,60 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок -->
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock Text="ImageUP"
-                               FontSize="28"
+                               FontSize="30"
                                FontWeight="Bold"
-                               Foreground="#FF00E5FF"
+                               Foreground="{StaticResource AccentBrush}"
                                Margin="0,0,10,0"/>
-                    
+                    <TextBlock Text="приложение для улучшения качества изображений"
+                               FontSize="16"
+                               Foreground="#E5FFFFFF"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"
+                               Width="420"/>
                 </StackPanel>
 
-                <!-- Основной текст -->
-                <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                    <TextBlock Text="Разработка основных модулей приложения"
-                               FontSize="22"
-                               Foreground="White"
-                               TextWrapping="Wrap"
-                               Margin="0,10,0,0"/>
-                    <TextBlock Text="для улучшения качества изображения"
-                               FontSize="22"
-                               Foreground="White"
-                               TextWrapping="Wrap"/>
+                <StackPanel Grid.Row="1"
+                            Margin="0,20,0,0"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="НИР:"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6"/>
 
-                    <TextBlock Text="Программа реализует поэлементные преобразования (линейное контрастирование, эквализация гистограммы), медианную фильтрацию, фильтр Винера и метрику SSIM для оценки качества."
+                    <TextBlock Text="«Разработка основных модулей приложения для улучшения качества изображения»"
+                               FontSize="16"
+                               TextWrapping="Wrap"
+                               Foreground="#F0F0F0"
+                               Margin="0,0,0,16"/>
+
+                    <TextBlock Text="Реализованы методы:"
                                FontSize="14"
-                               Foreground="#FFB0B0B0"
-                               TextWrapping="Wrap"
-                               Margin="0,20,0,0"/>
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4"/>
 
-                    <TextBlock Text="Нажмите «Начать», чтобы перейти к рабочему окну обработки изображений."
+                    <TextBlock FontSize="13"
+                               TextWrapping="Wrap"
+                               Foreground="#C0C0C0">
+                        • линейное контрастирование и эквализация гистограммы;
+                        &#10;• медианная фильтрация;
+                        &#10;• фильтр Винера;
+                        &#10;• метрика SSIM для оценки качества.
+                    </TextBlock>
+
+                    <TextBlock Text="Нажмите «Начать работу», чтобы перейти к рабочему окну обработки изображений."
                                FontSize="13"
-                               Foreground="#FFB0B0B0"
-                               Margin="0,10,0,0"/>
+                               Foreground="#A0A0A0"
+                               Margin="0,16,0,0"/>
+
+                    <TextBlock Text="Нажмите «Справка», чтобы кратко ознакомиться с методами и формулами."
+                               FontSize="13"
+                               Foreground="#A0A0A0"
+                               Margin="0,4,0,0"/>
                 </StackPanel>
 
-                <!-- Низ: подписи + кнопка Начать -->
-                <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid Grid.Row="2" Margin="0,16,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -76,29 +107,28 @@
                     <StackPanel Orientation="Vertical"
                                 VerticalAlignment="Center">
                         <TextBlock Text="Выполнил: студент Ковалев Н.С."
-                                   Foreground="#FF8A8A8A"
-                                   FontSize="12"/>
+                                   FontSize="12"
+                                   Foreground="#9CA3AF"/>
                         <TextBlock Text="Руководитель: Хохлова С.С."
-                                   Foreground="#FF8A8A8A"
-                                   FontSize="12"/>
+                                   FontSize="12"
+                                   Foreground="#9CA3AF"/>
                     </StackPanel>
 
-                    <Button Grid.Column="1"
-                            Content="Начать"
-                            Width="120" Height="36"
-                            FontWeight="SemiBold"
-                            Background="#FF00E5FF"
-                            Foreground="#FF1A1A1A"
-                            BorderBrush="#FF00E5FF"
-                            Cursor="Hand"
-                            Click="StartButton_Click">
-                        <Button.Effect>
-                            <DropShadowEffect Color="Black"
-                                              BlurRadius="10"
-                                              ShadowDepth="2"
-                                              Opacity="0.5"/>
-                        </Button.Effect>
-                    </Button>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <Button Content="Справка"
+                                Width="120"
+                                Height="38"
+                                Style="{StaticResource GhostButton}"
+                                Margin="0,0,10,0"
+                                Click="HelpButton_Click"/>
+                        <Button Content="Начать работу"
+                                Width="150"
+                                Height="38"
+                                Style="{StaticResource AccentButton}"
+                                Click="StartButton_Click"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Border>

@@ -3,8 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ImageUP — улучшение качества изображений"
         Height="650" Width="1100"
-        Background="#FF101018"
         WindowStartupLocation="CenterScreen">
+
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#14141F" Offset="0"/>
+            <GradientStop Color="#0E0E16" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
 
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
@@ -12,124 +18,144 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- ЛЕВАЯ ЧАСТЬ: исходное + обработанное изображения -->
         <Grid Grid.Column="0" Margin="0,0,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Исходное изображение -->
-            <GroupBox Header="Исходное изображение"
-                      Foreground="White"
-                      Margin="0,0,0,5"
-                      FontWeight="SemiBold">
-                <Border Background="#FF1B1B27"
-                        Padding="5"
-                        CornerRadius="10"
-                        ClipToBounds="True">
-                    <Grid>
-                        <Image x:Name="OriginalImageControl"
-                               Stretch="Uniform"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               RenderTransformOrigin="0.5,0.5"
-                               MouseLeftButtonDown="OriginalImageControl_MouseLeftButtonDown">
-                            <Image.RenderTransform>
-                                <ScaleTransform x:Name="OriginalImageScale"
-                                                ScaleX="1" ScaleY="1"/>
-                            </Image.RenderTransform>
-                        </Image>
-                    </Grid>
-                </Border>
-            </GroupBox>
+            <Border Background="{StaticResource CardBrush}"
+                    CornerRadius="14"
+                    Padding="10"
+                    Effect="{StaticResource CardShadow}"
+                    Margin="0,0,0,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-            <!-- Обработанное изображение -->
-            <GroupBox Header="Обработанное изображение"
-                      Foreground="White"
-                      Grid.Row="1"
-                      FontWeight="SemiBold">
-                <Border Background="#FF1B1B27"
-                        Padding="5"
-                        CornerRadius="10"
-                        ClipToBounds="True">
-                    <Grid>
-                        <Image x:Name="ProcessedImageControl"
-                               Stretch="Uniform"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               RenderTransformOrigin="0.5,0.5"
-                               MouseLeftButtonDown="ProcessedImageControl_MouseLeftButtonDown">
-                            <Image.RenderTransform>
-                                <ScaleTransform x:Name="ProcessedImageScale"
-                                                ScaleX="1" ScaleY="1"/>
-                            </Image.RenderTransform>
-                        </Image>
-                    </Grid>
-                </Border>
-            </GroupBox>
+                    <TextBlock Text="Исходное изображение"
+                               FontWeight="SemiBold"
+                               Foreground="#E5E7EB"
+                               Margin="2,0,0,4"/>
+
+                    <Border Grid.Row="1"
+                            Background="#15151F"
+                            BorderBrush="#26263A"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            ClipToBounds="True">
+                        <Grid>
+                            <Image x:Name="OriginalImageControl"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   RenderTransformOrigin="0.5,0.5"
+                                   MouseLeftButtonDown="OriginalImageControl_MouseLeftButtonDown">
+                                <Image.RenderTransform>
+                                    <ScaleTransform x:Name="OriginalImageScale"
+                                                    ScaleX="1" ScaleY="1"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Background="{StaticResource CardBrush}"
+                    CornerRadius="14"
+                    Padding="10"
+                    Effect="{StaticResource CardShadow}"
+                    Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Обработанное изображение"
+                               FontWeight="SemiBold"
+                               Foreground="#E5E7EB"
+                               Margin="2,0,0,4"/>
+
+                    <Border Grid.Row="1"
+                            Background="#15151F"
+                            BorderBrush="#26263A"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            ClipToBounds="True">
+                        <Grid>
+                            <Image x:Name="ProcessedImageControl"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   RenderTransformOrigin="0.5,0.5"
+                                   MouseLeftButtonDown="ProcessedImageControl_MouseLeftButtonDown">
+                                <Image.RenderTransform>
+                                    <ScaleTransform x:Name="ProcessedImageScale"
+                                                    ScaleX="1" ScaleY="1"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
         </Grid>
 
-        <!-- ПРАВАЯ ЧАСТЬ: панель управления -->
         <Border Grid.Column="1"
-                Background="#FF181821"
-                CornerRadius="15"
-                Padding="15">
+                Background="{StaticResource DarkPanelBrush}"
+                CornerRadius="18"
+                Padding="16"
+                Effect="{StaticResource CardShadow}">
             <StackPanel>
 
                 <TextBlock Text="Панель управления"
                            FontSize="20"
                            FontWeight="Bold"
                            Foreground="White"
-                           Margin="0,0,0,10"/>
+                           Margin="0,0,0,12"/>
 
-                <!-- Кнопки загрузки / сохранения -->
                 <StackPanel Orientation="Horizontal"
-                            Margin="0,0,0,10">
+                            Margin="0,0,0,12">
                     <Button Content="Загрузить"
                             Width="120"
                             Margin="0,0,8,0"
-                            Click="LoadImage_Click"
-                            Background="#FF00E5FF"
-                            Foreground="#FF1A1A1A"
-                            FontWeight="SemiBold"/>
+                            Style="{StaticResource AccentButton}"
+                            Click="LoadImage_Click"/>
                     <Button Content="Сохранить"
                             Width="120"
-                            Click="SaveImage_Click"
-                            Background="#FF303040"
-                            Foreground="White"/>
+                            Style="{StaticResource GhostButton}"
+                            Click="SaveImage_Click"/>
                 </StackPanel>
 
-                <Separator Margin="0,5"/>
+                <Separator Margin="0,4"/>
 
-                <!-- Методы улучшения -->
                 <TextBlock Text="Методы улучшения"
                            FontWeight="Bold"
                            Foreground="White"
-                           Margin="0,5"/>
+                           Margin="0,6"/>
 
-                <Button Content="Линейное контрастирование"
-                        Margin="0,3"
-                        Height="30"
-                        Click="LinearContrast_Click"
-                        Background="#FF252535"
-                        Foreground="White"/>
+                <StackPanel>
+                    <Button Content="Линейное контрастирование"
+                            Margin="0,3"
+                            Height="30"
+                            Style="{StaticResource GhostButton}"
+                            Click="LinearContrast_Click"/>
 
-                <Button Content="Эквализация гистограммы"
-                        Margin="0,3"
-                        Height="30"
-                        Click="HistogramEq_Click"
-                        Background="#FF252535"
-                        Foreground="White"/>
+                    <Button Content="Эквализация гистограммы"
+                            Margin="0,3"
+                            Height="30"
+                            Style="{StaticResource GhostButton}"
+                            Click="HistogramEq_Click"/>
 
-                <Button Content="Медианный фильтр (3x3)"
-                        Margin="0,3"
-                        Height="30"
-                        Click="MedianFilter_Click"
-                        Background="#FF252535"
-                        Foreground="White"/>
+                    <Button Content="Медианный фильтр (3x3)"
+                            Margin="0,3"
+                            Height="30"
+                            Style="{StaticResource GhostButton}"
+                            Click="MedianFilter_Click"/>
+                </StackPanel>
 
-                <!-- Параметры фильтра Винера -->
                 <TextBlock Text="Фильтр Винера"
                            Foreground="White"
                            Margin="0,10,0,2"
@@ -138,67 +164,65 @@
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center">
                     <TextBlock Text="Радиус окна:"
-                               Foreground="White"
                                VerticalAlignment="Center"
-                               Margin="0,0,5,0"/>
+                               Margin="0,0,5,0"
+                               Foreground="#D1D5DB"/>
                     <Slider x:Name="WienerRadiusSlider"
                             Minimum="1"
                             Maximum="3"
                             Value="1"
-                            Width="80"
+                            Width="90"
                             TickFrequency="1"
                             IsSnapToTickEnabled="True"/>
                     <TextBlock Text="{Binding ElementName=WienerRadiusSlider, Path=Value}"
-                               Foreground="White"
-                               Margin="5,0,0,0"/>
+                               Foreground="#E5E7EB"
+                               Margin="6,0,0,0"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"
                             Margin="0,5,0,0">
                     <TextBlock Text="Дисперсия шума:"
-                               Foreground="White"
                                VerticalAlignment="Center"
-                               Margin="0,0,5,0"/>
+                               Margin="0,0,5,0"
+                               Foreground="#D1D5DB"/>
                     <TextBox x:Name="NoiseVarianceTextBox"
-                             Width="60"
+                             Width="70"
                              Text="10"
-                             Background="#FF101018"
+                             Background="#111118"
                              Foreground="White"
-                             BorderBrush="#FF404050"/>
+                             BorderBrush="#374151"/>
                 </StackPanel>
 
                 <Button Content="Применить фильтр Винера"
-                        Margin="0,5,0,10"
-                        Height="30"
-                        Click="WienerFilter_Click"
-                        Background="#FF3C3C5A"
-                        Foreground="White"/>
+                        Margin="0,6,0,12"
+                        Height="32"
+                        Style="{StaticResource AccentButton}"
+                        Click="WienerFilter_Click"/>
 
-                <Separator Margin="0,5"/>
+                <Separator Margin="0,4"/>
 
-                <!-- SSIM -->
                 <TextBlock Text="Оценка качества (SSIM)"
                            FontWeight="Bold"
                            Foreground="White"
-                           Margin="0,5"/>
+                           Margin="0,6"/>
 
                 <StackPanel Orientation="Horizontal"
-                            Margin="0,5">
+                            Margin="0,4">
                     <TextBlock Text="SSIM:"
-                               Foreground="White"
                                VerticalAlignment="Center"
-                               Margin="0,0,5,0"/>
+                               Margin="0,0,5,0"
+                               Foreground="#D1D5DB"/>
                     <TextBlock x:Name="SsimValueTextBlock"
-                               Foreground="#FF7CFC00"
+                               Foreground="#7CFC00"
                                FontWeight="Bold"
                                Text="—"/>
                 </StackPanel>
 
                 <TextBlock Text="SSIM рассчитывается между исходным и текущим обработанным изображением."
-                           Foreground="#FF9A9AAA"
+                           Foreground="#9CA3AF"
                            TextWrapping="Wrap"
                            FontSize="11"
-                           Margin="0,10,0,0"/>
+                           Margin="0,8,0,0"/>
 
             </StackPanel>
         </Border>

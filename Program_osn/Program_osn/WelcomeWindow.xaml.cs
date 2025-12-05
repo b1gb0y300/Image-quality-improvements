@@ -13,12 +13,14 @@ namespace ImageEnhancementWpf
         {
             var main = new MainWindow();
             main.Show();
-            this.Close();
+            Close();
         }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            var help = new HelpWindow();
+            help.Owner = this;
+            help.ShowDialog();
         }
     }
 }

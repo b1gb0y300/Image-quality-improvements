@@ -3,5 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="WelcomeWindow.xaml">
     <Application.Resources>
+        
+        <SolidColorBrush x:Key="AccentBrush" Color="#3B82F6"/>
+        <SolidColorBrush x:Key="AccentBrushLight" Color="#60A5FA"/>
+        <SolidColorBrush x:Key="DarkPanelBrush" Color="#181821"/>
+        <SolidColorBrush x:Key="CardBrush" Color="#1B1B29"/>
+
+        <DropShadowEffect x:Key="CardShadow"
+                          Color="Black"
+                          BlurRadius="18"
+                          ShadowDepth="2"
+                          Opacity="0.4"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <ControlTemplate x:Key="RoundedButtonTemplate" TargetType="Button">
+            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="8"
+                    Padding="{TemplateBinding Padding}">
+                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  RecognizesAccessKey="True"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="BorderThickness" Value="1"/>
+                    <Setter TargetName="border" Property="BorderBrush" Value="#40FFFFFF"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="border" Property="Opacity" Value="0.85"/>
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="AccentButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template" Value="{StaticResource RoundedButtonTemplate}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="GhostButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#252535"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Template" Value="{StaticResource RoundedButtonTemplate}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
     </Application.Resources>
 </Application>

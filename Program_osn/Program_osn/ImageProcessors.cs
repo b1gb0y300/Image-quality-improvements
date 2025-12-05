@@ -39,7 +39,6 @@ namespace ImageEnhancement
             int min = 255;
             int max = 0;
 
-            // Находим min и max
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -52,7 +51,6 @@ namespace ImageEnhancement
 
             if (max == min)
             {
-                // Изображение константное – вернуть копию
                 return (Bitmap)gray.Clone();
             }
 
@@ -113,7 +111,6 @@ namespace ImageEnhancement
                 }
             }
 
-            // Формируем таблицу преобразования
             int[] map = new int[256];
             for (int i = 0; i < 256; i++)
             {
@@ -130,7 +127,6 @@ namespace ImageEnhancement
 
             var result = new Bitmap(width, height);
 
-            // Применяем преобразование к каждому пикселю
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -207,7 +203,6 @@ namespace ImageEnhancement
             {
                 for (int x = 0; x < width; x++)
                 {
-                    // Собираем локальное окно
                     List<double> window = new List<double>();
 
                     for (int j = -windowRadius; j <= windowRadius; j++)
@@ -225,12 +220,10 @@ namespace ImageEnhancement
                         }
                     }
 
-                    // Локальное среднее
                     double mu = 0.0;
                     foreach (double v in window) mu += v;
                     mu /= window.Count;
 
-                    // Локальная дисперсия
                     double sigma2 = 0.0;
                     foreach (double v in window)
                     {

@@ -1,0 +1,144 @@
+﻿<Window x:Class="ImageEnhancementWpf.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Справка — ImageUP"
+        Width="820" Height="860"
+        WindowStartupLocation="CenterOwner">
+
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#14141F" Offset="0"/>
+            <GradientStop Color="#0E0E16" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Border Margin="12"
+            Padding="16"
+            Background="#1A1A24"
+            CornerRadius="15"
+            Effect="{StaticResource CardShadow}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Справка по приложению ImageUP"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Margin="0,0,0,2"/>
+                    <TextBlock Text="Информация о приложении и используемых методах улучшения изображений"
+                               FontSize="12"
+                               Foreground="#9CA3AF"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="Назад"
+                        Width="90"
+                        Height="30"
+                        Style="{StaticResource GhostButton}"
+                        Click="BackButton_Click"/>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+                <Border Background="#252837"
+                        CornerRadius="12"
+                        Padding="18"
+                        Margin="0,0,0,0">
+                    <StackPanel>
+
+                        <TextBlock Text="Назначение приложения"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,4"/>
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5">
+ImageUP — учебное приложение для демонстрации классических методов цифровой
+обработки изображений. Программа показывает, как поэлементные преобразования,
+фильтрация и методы восстановления влияют на визуальное качество, и как
+оценивать результат с помощью метрики структурного сходства SSIM.
+                        </TextBlock>
+
+                        <TextBlock Text="Режим работы пользователя"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,16,0,4"/>
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5">
+1. Загрузите изображение с помощью кнопки «Загрузить».&#10;
+2. Выберите метод улучшения (линейное контрастирование, эквализация гистограммы,
+   медианная фильтрация или фильтр Винера).&#10;
+3. Оцените визуальные изменения и значение SSIM в правой панели.&#10;
+4. При необходимости сохраните обработанный результат кнопкой «Сохранить».
+                        </TextBlock>
+
+                        <TextBlock Text="Особенности реализации"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,16,0,4"/>
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5">
+Приложение написано на C# / WPF. Обработка изображений вынесена в отдельные
+модули, интерфейс использует тёмную цветовую схему и поддерживает
+масштабирование изображений по клику. Всё это делает ImageUP удобным
+инструментом для демонстрации методов цифровой обработки в учебных целях.
+                        </TextBlock>
+
+                        <TextBlock Text="Кратко о реализованных методах"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,16,0,4"/>
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5">
+Поэлементные преобразования изменяют яркость каждого пикселя по заданной
+функции и используются для нормализации яркостного диапазона и усиления
+деталей. Линейное контрастирование растягивает диапазон яркостей, делая
+изображение более контрастным, а эквализация гистограммы перераспределяет
+яркости так, чтобы лучше проявить детали в светлых и тёмных областях.
+                        </TextBlock>
+
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5"
+                                   Margin="0,8,0,0">
+Медианная фильтрация подавляет импульсный шум («соль и перец»), заменяя
+пиксель медианой значений в окрестности. Фильтр Винера применяется для
+восстановления изображений, искажённых размытием и шумом, и минимизирует
+среднеквадратическую ошибку между исходным и восстановленным изображением.
+                        </TextBlock>
+
+                        <TextBlock Text="Метрика SSIM"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,16,0,4"/>
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#E5E5E5">
+SSIM (Structural SIMilarity) оценивает структурное сходство двух изображений.
+В отличие от MSE и PSNR, метрика учитывает яркость, контраст и структуру,
+то есть лучше соответствует визуальному восприятию человека. Значения SSIM
+лежат в диапазоне от 0 до 1: чем ближе к 1, тем сильнее исходное и
+обработанное изображения совпадают по структуре.
+                        </TextBlock>
+
+                        <TextBlock TextWrapping="Wrap"
+                                   Foreground="#9CA3AF"
+                                   Margin="0,8,0,0">
+В окне программы SSIM рассчитывается между исходным и текущим обработанным
+изображением. Показатель помогает понять, насколько выбранный метод улучшил
+или изменил структуру изображения.
+                        </TextBlock>
+
+                    </StackPanel>
+                </Border>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>
